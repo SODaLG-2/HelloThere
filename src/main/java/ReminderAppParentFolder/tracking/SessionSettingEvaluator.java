@@ -48,7 +48,7 @@ public class SessionSettingEvaluator {
                 // Rule A: User is engaged and less distracted — increase interval
             } else {
                 newPopupInterval = Math.max(300,
-                        Math.abs(Math.abs(previous.getPopupInterval() - previous.getPreviousPopupInterval())/2));
+                        Math.abs(previous.getPopupInterval() - previous.getPreviousPopupInterval())/2);
                 // Rule B: User is engaged but more distracted — decrease interval
             }
         } else if (popupYes < popupNo) {

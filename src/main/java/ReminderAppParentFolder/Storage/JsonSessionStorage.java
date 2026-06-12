@@ -14,7 +14,7 @@ import java.util.List;
  * Low-level JSON handler for SessionDraft files using Gson.
  * Only knows how to serialize/deserialize — folder path comes from SessionStorage.
  */
-public class JsonSessionStorage implements StorageProvider<SessionDraft> {
+public class JsonSessionStorage {
 
     Gson GSON = GsonProvider.getGson();
 
@@ -27,7 +27,7 @@ public class JsonSessionStorage implements StorageProvider<SessionDraft> {
     }
 
 
-    @Override
+
     public int save(SessionDraft draft) {
         if (draft == null) return -1;
         //Get old name
@@ -54,7 +54,6 @@ public class JsonSessionStorage implements StorageProvider<SessionDraft> {
     }
 
 
-    @Override
     public SessionDraft load(String sessionName) {
         Path file = folder.resolve(sanitize(sessionName) + ".json");
         if (!Files.exists(file)) return null;
@@ -66,7 +65,7 @@ public class JsonSessionStorage implements StorageProvider<SessionDraft> {
             throw new RuntimeException("Failed to load session: " + sessionName, e);
         }
     }
-    @Override
+
     public List<String> loadAllNames() {
         List<String> result = new ArrayList<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(folder, "*.json")) {
@@ -90,7 +89,7 @@ public class JsonSessionStorage implements StorageProvider<SessionDraft> {
         return result;
     }
 
-    @Override
+
     public int delete(String sessionName) {
         Path file = folder.resolve(sanitize(sessionName) + ".json");
         try {

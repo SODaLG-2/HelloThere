@@ -305,7 +305,6 @@ public class SessionsPanel extends JPanel {
             selectedIndex = UUIDPos;
             pageStart = 0;
             refreshPage(false);
-            System.out.print("So this is triggered?");
             selectIndex(UUIDPos, SessionAction.SELECT);
         }
     }

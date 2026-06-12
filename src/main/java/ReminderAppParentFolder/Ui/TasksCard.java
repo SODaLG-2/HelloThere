@@ -148,6 +148,7 @@ public class TasksCard extends JPanel {
     public void setDraft(SessionDraft draft) { this.draft = draft; }
 
     public void loadFromDraft() {
+        //Is this where the
         overlayUsage.setSelected(draft.getTaskOverlayUsage());
         taskList.removeAll();
         taskListStorage.clear();

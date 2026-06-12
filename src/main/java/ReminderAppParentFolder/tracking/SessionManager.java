@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 
 /**
  * The core mission-control engine for an active focus session.
@@ -127,7 +128,8 @@ public class SessionManager {
         // 2. Clear any lingering popup notifications left on screen
         NotificationManager.getInstance().cancelCurrentPopup();
         NotificationManager.getInstance().stopSound();
-        activeUiPanel.deactivateTaskOverlay();
+        if (sessionDraft.getTaskOverlayUsage())
+            activeUiPanel.deactivateTaskOverlay();
 
         // 3. Compile the structural metadata and finalize telemetry data logs
         totalElapsedSeconds = (System.currentTimeMillis() - sessionStartTimeMillis) / 1000;
@@ -140,6 +142,7 @@ public class SessionManager {
 
         SessionSettingEvaluator evaluator = new SessionSettingEvaluator();
         evaluator.calculateSimpleIntervalAdjustments(sessionDraft, sessionLog);
+        sessionDraft.setTasks(new ArrayList<>());
 
         StorageManager.getInstance().logs().save(sessionLog);
         if (sessionDraft.getTaskOverlayUsage())
@@ -160,7 +163,8 @@ public class SessionManager {
         // 2. Clear any lingering popup notifications left on screen
         NotificationManager.getInstance().cancelCurrentPopup();
         NotificationManager.getInstance().stopSound();
-        activeUiPanel.deactivateTaskOverlay();
+        if (sessionDraft.getTaskOverlayUsage())
+            activeUiPanel.deactivateTaskOverlay();
 
         // 3. Compile the structural metadata and finalize telemetry data logs
         totalElapsedSeconds = (System.currentTimeMillis() - sessionStartTimeMillis) / 1000;
@@ -168,16 +172,14 @@ public class SessionManager {
 
         // sessionLog.compileSessionEffectiveness(sessionStartTimeMillis, totalIdleTime);
 
+
         convertToLog();
         ActivityTracker.getInstance().stopTracking();
-
-        SessionSettingEvaluator evaluator = new SessionSettingEvaluator();
-        evaluator.calculateSimpleIntervalAdjustments(sessionDraft, sessionLog);
-
         StorageManager.getInstance().logs().save(sessionLog);
         if (sessionDraft.getTaskOverlayUsage())
             activeUiPanel.deactivateTaskOverlay();
         logPanel.addSession(new SessionLogPanel.Session(sessionLog.getSessionName(), sessionLog.getCreatedAt(), logPanel.stringCompletion2Completion(sessionLog.getCompletionStatus()), sessionLog.getDuration()));
+
     }
 
     /**
@@ -195,7 +197,8 @@ public class SessionManager {
         NotificationManager.getInstance().cancelCurrentPopup();
         NotificationManager.getInstance().stopSound();
         ActivityTracker.getInstance().stopTracking();
-        activeUiPanel.deactivateTaskOverlay();
+        if (sessionDraft.getTaskOverlayUsage())
+            activeUiPanel.deactivateTaskOverlay();
         System.out.println("[Engine] Session completely discarded by user. History not recorded.");
     }
 

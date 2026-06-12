@@ -280,9 +280,6 @@ public class SessionContentPanel extends JPanel {
         saveCurrentSession();
 
         activePanel.setTasks(currentDraft.getTasks());
-        for (String task : currentDraft.getTasks()) {
-            System.out.println(task);
-        }
         currentDraft.setActive(true);
 
         int totalSeconds = currentDraft.getExpectedDuration();
@@ -316,13 +313,17 @@ public class SessionContentPanel extends JPanel {
 
     // ── Public API ─────────────────────────────────────────────────────────────
     public void loadSession(SessionDraft draft) { //so this is fucking up the draft changed system
+        List<String> tasks = new ArrayList<>();
+        if (currentDraft!=null) {
+            tasks = currentDraft.getTasks();
+        }
         currentSession = draft.getSessionName();
         currentDraft   = draft;
-
         sessionInfoCard.setDraft(currentDraft);
         notificationsCard.setDraft(currentDraft);
         tasksCard.setDraft(currentDraft);
-
+        if (tasks != null && !tasks.isEmpty())
+            currentDraft.setTasks(tasks);
         sessionInfoCard.loadFromDraft();
         notificationsCard.loadFromDraft();
         tasksCard.loadFromDraft();

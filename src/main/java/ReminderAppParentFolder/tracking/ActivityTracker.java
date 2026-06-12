@@ -170,13 +170,10 @@ public class ActivityTracker implements NativeKeyListener, NativeMouseMotionList
     // TELEMETRY API
     // ─────────────────────────────────────────────────────────────
 
-    public long getIdleDurationMs() { return System.currentTimeMillis() - lastActivityTime.get(); }
+   
     public boolean isUserIdle() { return isUserIdle; }
     public int getTotalIdleCount() { return totalIdleCount.get(); }
-    public long getCurrentIdleEpisodeDurationMs() {
-        if (!isUserIdle) return 0L;
-        return System.currentTimeMillis() - idleStartTime;
-    }
+
 
     // ─────────────────────────────────────────────────────────────
     // NATIVE OS INPUT EVENT INTERCEPTORS (MUST REMAIN LIGHTWEIGHT)

@@ -49,7 +49,6 @@ public class ActivityTracker implements NativeKeyListener, NativeMouseMotionList
 
     public static synchronized ActivityTracker getInstance(long idleThresholdMs) {
         if (instance == null) {
-            System.out.println(idleThresholdMs);
             instance = new ActivityTracker(idleThresholdMs);
         }
         return instance;

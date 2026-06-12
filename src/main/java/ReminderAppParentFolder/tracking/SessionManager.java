@@ -6,7 +6,6 @@ import ReminderAppParentFolder.Storage.StorageManager;
 import ReminderAppParentFolder.Ui.MainWindow;
 import ReminderAppParentFolder.Ui.SessionActivePanel;
 import ReminderAppParentFolder.Ui.SessionLogPanel;
-import ReminderAppParentFolder.Ui.TaskOverlayWidget;
 
 import javax.swing.SwingUtilities;
 import java.time.Instant;
@@ -27,7 +26,6 @@ public class SessionManager {
     private boolean isSessionRunning = false;
     private long sessionStartTimeMillis;
     long totalElapsedSeconds;
-    private Thread clockThread;
 
     // Internal Subsystem Workers (Owned by this Manager)
     private NotificationScheduler currentScheduler;
@@ -38,8 +36,6 @@ public class SessionManager {
     private SessionActivePanel activeUiPanel;
     private MainWindow         mainWindow;
     private SessionLogPanel    logPanel;
-
-    TaskOverlayWidget  taskOverlayWidget = new TaskOverlayWidget();
 
     private SessionDraft sessionDraft;
 
@@ -213,7 +209,13 @@ public class SessionManager {
     private void startVisualClockLoop(int totalSecondsExpected) {
         final int totalSecondsRequired = totalSecondsExpected;
 
-        clockThread = new Thread(() -> {
+        // Process metrics strictly once a second
+        // Calculate elapsed and remaining allocations
+        // Turn raw integers into formatted HH:MM:SS text sequences
+        // Safely dispatch formatted text down to the passive UI display
+        // Wrap up operations at expiration
+        // Acknowledge early thread interruption requests
+        Thread clockThread = new Thread(() -> {
             while (isSessionRunning) {
                 try {
                     Thread.sleep(1000); // Process metrics strictly once a second
@@ -223,7 +225,7 @@ public class SessionManager {
                     long secondsRemaining = totalSecondsRequired - currentElapsedSeconds;
 
                     if (secondsRemaining == 0) {
-                        if (NotificationManager.getInstance().defaultPopupNotification("Time's up!", "Should I bring up the window, or would you like to simply continue?", new String[] {"Bring up the list", "I would like to continue"})==0) {
+                        if (NotificationManager.getInstance().defaultPopupNotification("Time's up!", "Should I bring up the window, or would you like to simply continue?", new String[]{"Bring up the list", "I would like to continue"}) == 0) {
                             mainWindow.toFront();
                         }
                     }
@@ -282,7 +284,6 @@ public class SessionManager {
         sessionLog.setEndTime(endTime); //change
 
         sessionLog.setTotalIdleTriggered(ActivityTracker.getInstance().getTotalIdleCount()); //set later
-        System.out.println(stopMethod);
         if (stopMethod.equalsIgnoreCase("Finish") && activeUiPanel.getUnFinishedCount()==0) {
             sessionLog.setCompletionStatus("Finished");
         } else if (stopMethod.equalsIgnoreCase("Finish") && activeUiPanel.getUnFinishedCount()!=0) {
@@ -293,9 +294,4 @@ public class SessionManager {
 
 
         totalElapsedSeconds = 0;
-    }
-
-    // Accessor to look at history files down the road
-    public SessionLog getSessionLog() { return sessionLog; }
-    public boolean isSessionRunning() { return isSessionRunning; }
-}
+    }}

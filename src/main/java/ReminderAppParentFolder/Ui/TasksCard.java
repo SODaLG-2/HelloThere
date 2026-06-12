@@ -15,12 +15,10 @@ public class TasksCard extends JPanel {
     private final JPanel taskList;
     private final JCheckBox overlayUsage;
     private final List<String> taskListStorage =  new ArrayList<>();
-    private final SessionContentPanel sessionContentPanel;
 
     private SessionDraft draft;
 
     public TasksCard(SessionContentPanel sessionContentPanel) {
-        this.sessionContentPanel = sessionContentPanel;
 
         setLayout(new BorderLayout());
         setBackground(Theme.BG_CONTENT);
@@ -199,7 +197,7 @@ public class TasksCard extends JPanel {
         taskList.revalidate();
         taskList.repaint();
 
-        draft.setTasks(new ArrayList<String>());
+        draft.setTasks(new ArrayList<>());
     }
 
     // ─────────────────────────────────────────

@@ -46,7 +46,6 @@ public class SessionsPanel extends JPanel {
         this.onSessionSelected = onSessionSelected;
         this.sessionContentPanel = sessionContentPanel;
 
-        System.out.println("is this triggered?");
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         setBackground(Theme.BG_DARK);
         setBorder(new MatteBorder(0, 0, 1, 0, Theme.BORDER_COLOR));
@@ -136,7 +135,6 @@ public class SessionsPanel extends JPanel {
                     "UNSAVED EDITS DETECTED!",
                     "Are you sure you want to change session?",
                     options);
-            System.out.println(result);
             if (result == 1 || result == -1) return;
             else {//remove the current session
                 removeLastSession();
@@ -360,7 +358,7 @@ public class SessionsPanel extends JPanel {
         if  (UUID == null) {
             return -1;
         }
-        System.out.println(UUID);
+
         String sm = StorageManager.getInstance().sessions().findUUIDSessionName(UUID);
         System.out.println(sm);
         return sessions.indexOf(sm);

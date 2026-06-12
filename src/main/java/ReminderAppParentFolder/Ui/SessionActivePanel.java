@@ -431,7 +431,6 @@ public class SessionActivePanel extends JPanel {
         listContainer.removeAll();
         tasks.clear();
         for (String sTask : taskList) {
-            System.out.println(sTask);
             addTask(new Task(sTask));
         }
         sortTasks();

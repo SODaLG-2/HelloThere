@@ -38,7 +38,7 @@ public class StorageManager {
             instance = new StorageManager(DEFAULT_SETTINGS_FILE);
         return instance;
     }
-    
+
     // ── Instance ───────────────────────────────────────────────────────────────
     private final SettingsStorage settingsStorage;
     private final SessionStorage  sessionStorage;

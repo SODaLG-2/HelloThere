@@ -2,7 +2,6 @@ package ReminderAppParentFolder.Storage;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,10 +34,6 @@ public class SettingsStorage {
 
     public String get(String key) {
         return cache.getOrDefault(key, null);
-    }
-
-    public String get(String key, String defaultValue) {
-        return cache.getOrDefault(key, defaultValue);
     }
 
     public void set(String key, String value, boolean init) {

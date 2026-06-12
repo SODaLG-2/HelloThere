@@ -138,7 +138,6 @@ public class MainWindow extends JFrame {
     private boolean onSessionAction(
             String sessionName,
             SessionAction action) {
-        System.out.println(sessionName);
         boolean result;
         result = switch (action) {
             case SELECT -> handleSessionSelection(sessionName); //unsure, probably does (It does, but for some reason, it also handles discarding new sessions when switching sessions now?)
@@ -180,7 +179,7 @@ public class MainWindow extends JFrame {
             currentDraft.setSessionInfo(sessionName);
             currentDraft.setSavedFileName(null);
         }
-        System.out.println(currentDraft.getId());
+
 
         return true;
     }

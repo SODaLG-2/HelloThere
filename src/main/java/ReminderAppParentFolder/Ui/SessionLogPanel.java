@@ -20,7 +20,6 @@ import java.util.List;
 public class SessionLogPanel extends JPanel {
 
     // ── Palette ─────────────────────────────────────────────────────────────
-    private static final Color BG_PANEL     = new Color(0x1A, 0x1A, 0x2B);
     private static final Color TEXT_DIM     = new Color(0x7A, 0x7A, 0xA8);
 
     private static final Color STATUS_DONE  = new Color(0x4C, 0xC9, 0x8A);
@@ -70,7 +69,6 @@ public class SessionLogPanel extends JPanel {
     // ── Session card component ────────────────────────────────────────────────
     private static class SessionCard extends JPanel {
 
-        private boolean hovered = false;
         private final Session session;
 
         SessionCard(Session s) {
@@ -154,12 +152,10 @@ public class SessionLogPanel extends JPanel {
         private void wireHover() {
             addMouseListener(new MouseAdapter() {
                 @Override public void mouseEntered(MouseEvent e) {
-                    hovered = true;
                     setBackground(Theme.BG_FIELD);
                     repaint();
                 }
                 @Override public void mouseExited(MouseEvent e) {
-                    hovered = false;
                     setBackground(Theme.BG_CARD);
                     repaint();
                 }

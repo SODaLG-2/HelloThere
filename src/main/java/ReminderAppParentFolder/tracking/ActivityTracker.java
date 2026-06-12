@@ -170,7 +170,7 @@ public class ActivityTracker implements NativeKeyListener, NativeMouseMotionList
     // TELEMETRY API
     // ─────────────────────────────────────────────────────────────
 
-   
+
     public boolean isUserIdle() { return isUserIdle; }
     public int getTotalIdleCount() { return totalIdleCount.get(); }
 

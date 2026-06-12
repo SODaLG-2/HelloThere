@@ -20,8 +20,8 @@ public class SessionSettingEvaluator {
 
         for (NotificationRecord record : current.getNotificationHistory()) {
             if (record.getType().equalsIgnoreCase("popup")) {
-                if (record.getReaction().equals("Yes")) popupYes++;
-                else if (record.getReaction().equals("No")) popupNo++;
+                if (record.getReaction().equalsIgnoreCase("Yes")) popupYes++;
+                else if (record.getReaction().equalsIgnoreCase("No")) popupNo++;
             } else if (record.getType().equalsIgnoreCase("Sound")) {
                 if (record.getReaction().equalsIgnoreCase("Returned")) returnedCount++;
                 else if (record.getReaction().equalsIgnoreCase("Delayed")) delayedCount++;

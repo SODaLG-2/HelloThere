@@ -64,6 +64,8 @@ public class TaskItem extends JPanel {
 
         deleteBtn = buildSmallButton("✕");
         deleteBtn.setForeground(new Color(200, 60, 60));
+        deleteBtn.setContentAreaFilled(false);
+        deleteBtn.setOpaque(true);
         deleteBtn.addActionListener(e -> onDelete.accept(this));
 
         // 4. Component Assembly

@@ -130,8 +130,8 @@ public class SessionManager {
 
         // 2. Clear any lingering popup notifications left on screen
         NotificationManager.getInstance().cancelCurrentPopup();
-        ActivityTracker.getInstance().stopTracking();
         NotificationManager.getInstance().stopSound();
+        activeUiPanel.deactivateTaskOverlay();
 
         // 3. Compile the structural metadata and finalize telemetry data logs
         totalElapsedSeconds = (System.currentTimeMillis() - sessionStartTimeMillis) / 1000;
@@ -140,6 +140,40 @@ public class SessionManager {
         // sessionLog.compileSessionEffectiveness(sessionStartTimeMillis, totalIdleTime);
 
         convertToLog();
+        ActivityTracker.getInstance().stopTracking();
+
+        SessionSettingEvaluator evaluator = new SessionSettingEvaluator();
+        evaluator.calculateSimpleIntervalAdjustments(sessionDraft, sessionLog);
+
+        StorageManager.getInstance().logs().save(sessionLog);
+        if (sessionDraft.getTaskOverlayUsage())
+            activeUiPanel.deactivateTaskOverlay();
+        logPanel.addSession(new SessionLogPanel.Session(sessionLog.getSessionName(), sessionLog.getCreatedAt(), logPanel.stringCompletion2Completion(sessionLog.getCompletionStatus()), sessionLog.getDuration()));
+    }
+
+    public void cancelActiveSession() {
+        if (!isSessionRunning) return;
+        this.isSessionRunning = false; // Tells threads to collapse and terminate
+
+        // 1. Teardown background workers cleanly
+        if (this.currentScheduler != null) {
+            this.currentScheduler.stop();
+        }
+        // long totalIdleTime = this.idleTracker.stopAndGetTotalIdle();
+
+        // 2. Clear any lingering popup notifications left on screen
+        NotificationManager.getInstance().cancelCurrentPopup();
+        NotificationManager.getInstance().stopSound();
+        activeUiPanel.deactivateTaskOverlay();
+
+        // 3. Compile the structural metadata and finalize telemetry data logs
+        totalElapsedSeconds = (System.currentTimeMillis() - sessionStartTimeMillis) / 1000;
+        System.out.println("[Engine] Session finished safely. Total active time: " + totalElapsedSeconds + "s");
+
+        // sessionLog.compileSessionEffectiveness(sessionStartTimeMillis, totalIdleTime);
+
+        convertToLog();
+        ActivityTracker.getInstance().stopTracking();
 
         SessionSettingEvaluator evaluator = new SessionSettingEvaluator();
         evaluator.calculateSimpleIntervalAdjustments(sessionDraft, sessionLog);
@@ -154,7 +188,7 @@ public class SessionManager {
      * Instantly aborts the active tracking sequence, tearing down popup
      * dialog frames without committing the data to the history log vault.
      */
-    public void cancelActiveSession() {
+    public void discardActiveSession() {
         if (!isSessionRunning) return;
         this.isSessionRunning = false;
 
@@ -165,8 +199,7 @@ public class SessionManager {
         NotificationManager.getInstance().cancelCurrentPopup();
         NotificationManager.getInstance().stopSound();
         ActivityTracker.getInstance().stopTracking();
-        if (sessionDraft.getTaskOverlayUsage())
-             activeUiPanel.deactivateTaskOverlay();
+        activeUiPanel.deactivateTaskOverlay();
         System.out.println("[Engine] Session completely discarded by user. History not recorded.");
     }
 
@@ -190,7 +223,7 @@ public class SessionManager {
                     long secondsRemaining = totalSecondsRequired - currentElapsedSeconds;
 
                     if (secondsRemaining == 0) {
-                        if (NotificationManager.getInstance().defaultPopupNotification("Time's up!", "Should I bring up the task list, or would you like to simply continue?", new String[] {"Bring up the list", "I would like to continue"})==0) {
+                        if (NotificationManager.getInstance().defaultPopupNotification("Time's up!", "Should I bring up the window, or would you like to simply continue?", new String[] {"Bring up the list", "I would like to continue"})==0) {
                             mainWindow.toFront();
                         }
                     }

@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -128,6 +130,23 @@ public class OverlayNotification extends JFrame {
             @Override public void componentResized(ComponentEvent e) { fitToScreen(); }
         });
 
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        // 2. Add the window listener to handle the close event
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                messagePanel.setVisible(false);
+                repaint();
+                Consumer<NotificationResult> cb = currentCallback;
+                if (cb != null) {
+                    currentCallback = null;
+                    cb.accept(NotificationResult.DISMISS);
+                }
+                dispose();
+            }
+        });
+
         setLayout(new BorderLayout());
         messagePanel = new MessagePanel();
         messagePanel.setVisible(false);
@@ -204,6 +223,7 @@ public class OverlayNotification extends JFrame {
             currentCallback = null;
             cb.accept(result);
         }
+        dispose();
     }
 
     // ─────────────────────────────────────────────────────────────

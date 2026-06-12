@@ -169,28 +169,23 @@ public class TasksCard extends JPanel {
     public void setDraft(SessionDraft draft) { this.draft = draft; }
 
     public void loadFromDraft() {
-
         overlayUsage.setSelected(draft.getTaskOverlayUsage());
-
         taskList.removeAll();
         taskListStorage.clear();
-
         for (String task : draft.getTasks()) {
-
             TaskItem item = new TaskItem(
                     task,
                     this::removeTask
             );
-
             taskList.add(item);
             taskList.add(Box.createRigidArea(new Dimension(0, 4)));
-
             taskListStorage.add(task);
         }
 
         taskList.revalidate();
         taskList.repaint();
     }
+
     public void applyToDraft(SessionDraft draft) {
         draft.setTaskOverlay(overlayUsage.isSelected());
         draft.setTasks(taskListStorage);
@@ -236,9 +231,6 @@ public class TasksCard extends JPanel {
 
         taskInput.requestFocusInWindow();
         this.draft.setTasks(taskListStorage);
-        for (String s : draft.getTasks()) {
-            System.out.println(s);
-        }
     }
 
     private void removeTask(TaskItem item) {

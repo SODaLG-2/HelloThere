@@ -120,7 +120,8 @@ public class NotificationScheduler {
         }
 
         // Start the new sound
-        notificationManager.playSoundInteractive();
+        if (notificationManager.playSoundInteractive()!=0) return;
+
 
         // Keep your 5-second buffer timer
         Timer timer = new Timer(5000, e -> {

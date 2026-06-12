@@ -269,7 +269,9 @@ public class SessionLogPanel extends JPanel {
     public void forceLoadSessionLog() {
         List<SessionLog> logs = StorageManager.getInstance().logs().loadAll();
         for (SessionLog s : logs) {
-            addSession(new Session(s.getSessionName(), s.getCreatedAt(), stringCompletion2Completion(s.getCompletionStatus()), s.getDuration()));
+            try {
+                addSession(new Session(s.getSessionName(), s.getCreatedAt(), stringCompletion2Completion(s.getCompletionStatus()), s.getDuration()));
+            } catch (Exception e) {}
         }
 
     }

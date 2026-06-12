@@ -148,7 +148,7 @@ public class SessionActivePanel extends JPanel {
             sessionStopMethod = "Cancel";
             elapsedTimeLabel.setText("00:00:00");
 
-            SessionManager.getInstance().stopActiveSession();
+            SessionManager.getInstance().cancelActiveSession();
 
             contentPanel.setDraftActive(false);
             contentPanel.displayCurrentDraft();
@@ -159,7 +159,7 @@ public class SessionActivePanel extends JPanel {
         discardBtn.addActionListener(e -> {
             sessionStopMethod = "Discard";
             elapsedTimeLabel.setText("00:00:00");
-            SessionManager.getInstance().cancelActiveSession();
+            SessionManager.getInstance().discardActiveSession();
 
 
             contentPanel.setDraftActive(false);
@@ -428,6 +428,8 @@ public class SessionActivePanel extends JPanel {
     public void setEstimatedTime(String hms) { estimatedTimeLabel.setText(hms); }
 
     public void setTasks(List<String> taskList) {
+        listContainer.removeAll();
+        tasks.clear();
         for (String sTask : taskList) {
             System.out.println(sTask);
             addTask(new Task(sTask));

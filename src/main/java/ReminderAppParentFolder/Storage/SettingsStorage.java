@@ -1,7 +1,12 @@
 package ReminderAppParentFolder.Storage;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.HashMap;
 import java.util.Map;
+
+import static ReminderAppParentFolder.Storage.StorageManager.*;
 
 /**
  * Manager hub for application settings.
@@ -16,6 +21,13 @@ public class SettingsStorage {
 
     public SettingsStorage(Path settingsFile) {
         this.jsonStorage = new JsonSettingsStorage(settingsFile);
+        if (!Files.exists(DEFAULT_SETTINGS_FILE)) {
+            Map<String, String> dataMap = new HashMap<>();
+            dataMap.put("Sessions", DEFAULT_SESSION_FOLDER.toString());
+            dataMap.put("Logs", DEFAULT_LOG_FOLDER.toString());
+            dataMap.put("Sounds", DEFAULT_AUDIO_FOLDER.toString());
+            jsonStorage.saveAll(dataMap);
+        }
         this.cache       = jsonStorage.loadAll(); // warm cache on construction
     }
 

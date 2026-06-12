@@ -17,7 +17,9 @@ public class ApplicationManager {
         StorageManager.getInstance();
         SwingUtilities.invokeLater(() -> new MainWindow().setVisible(true));
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            ActivityTracker.getInstance().stopTracking();
+            try {
+                ActivityTracker.getInstance().stopTracking();
+            } catch (Exception ignored) {}
         }));
     }
 

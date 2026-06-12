@@ -2,7 +2,6 @@ package ReminderAppParentFolder.Storage;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 /**
  * Singleton top-level storage hub.
  *
@@ -26,10 +25,10 @@ public class StorageManager {
     // ── Default relative paths <Fallback folder locations except for Settings.> (resolved against app root) ────────────────────
     private static final Path DEFAULT_ROOT           = Paths.get(System.getProperty("user.home"), "HelloThere");
     //private static final Path DEFAULT_ROOT           = Paths.get("C:\\ReminderApp");
-    private static final Path DEFAULT_SETTINGS_FILE  = DEFAULT_ROOT.resolve("Settings.json");
-    private static final Path DEFAULT_SESSION_FOLDER = DEFAULT_ROOT.resolve("sessions");
-    private static final Path DEFAULT_LOG_FOLDER     = DEFAULT_ROOT.resolve("logs");
-    private static final Path DEFAULT_AUDIO_FOLDER = DEFAULT_ROOT.resolve("sounds");
+    static final Path DEFAULT_SETTINGS_FILE  = DEFAULT_ROOT.resolve("Settings.json");
+    static final Path DEFAULT_SESSION_FOLDER = DEFAULT_ROOT.resolve("sessions");
+    static final Path DEFAULT_LOG_FOLDER     = DEFAULT_ROOT.resolve("logs");
+    static final Path DEFAULT_AUDIO_FOLDER = DEFAULT_ROOT.resolve("sounds");
 
     // ── Single Instance ──────────────────────────────────────────────────────────────
     private static StorageManager instance;
@@ -39,12 +38,7 @@ public class StorageManager {
             instance = new StorageManager(DEFAULT_SETTINGS_FILE);
         return instance;
     }
-
-    /** Override the singleton with a custom settings file path (e.g. for testing). */
-    public static void init(Path settingsFile) {
-        instance = new StorageManager(settingsFile);
-    }
-
+    
     // ── Instance ───────────────────────────────────────────────────────────────
     private final SettingsStorage settingsStorage;
     private final SessionStorage  sessionStorage;

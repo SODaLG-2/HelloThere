@@ -91,9 +91,9 @@ public class SessionDraft {
     public void setId(String id)                              { this.id               = id; }
     public void setName(String sessionName)                   { this.sessionName      = sessionName; }
     public void setSessionInfo(String sessionName)            { this.sessionName      = sessionName; }
-    public void setExpectedDuration(int expectedDuration)     { this.expectedDuration = max(0, expectedDuration); }
+    public void setExpectedDuration(int expectedDuration)     { this.expectedDuration = max(60, expectedDuration); }
     public void setUseIdleThreshold(boolean useIdleThreshold) { this.useIdleThreshold = useIdleThreshold; }
-    public void setIdleThreshold(int idleThreshold)           { this.idleThreshold    = max(0, idleThreshold); }
+    public void setIdleThreshold(int idleThreshold)           { this.idleThreshold    = max(60, idleThreshold); }
     public void setNotifications(NotificationSettings n)      { this.notifications    = n; }
     public void setTaskList(TaskList taskList)                 { this.taskList         = taskList; }
     public void setCreatedAt(LocalDateTime createdAt)         { this.createdAt        = createdAt; }
@@ -123,12 +123,12 @@ public class SessionDraft {
     public void setPopupEnabled(boolean enabled)              { notifications.setPopupEnabled(enabled); }
     public void setOverlayEnabled(boolean enabled)            { notifications.setOverlayEnabled(enabled); }
     public void setSoundEnabled(boolean enabled)              { notifications.setSoundEnabled(enabled); }
-    public void setPopupInterval(int interval)                { notifications.setPopupInterval(max(0, interval)); }
-    public void setOverlayInterval(int interval)              { notifications.setOverlayInterval(max(0, interval)); }
-    public void setSoundInterval(int interval)                { notifications.setSoundInterval(max(0, interval)); }
-    public void setPreviousSoundInterval(int interval)        { notifications.setPreviousSoundInterval(max(0, interval)); }
-    public void setPreviousPopupInterval(int interval)        { notifications.setPreviousPopupInterval(max(0, interval)); }
-    public void setPreviousOverlayInterval(int interval)        { notifications.setPreviousOverlayInterval(max(0, interval)); }
+    public void setPopupInterval(int interval)                { notifications.setPopupInterval(max(60, interval)); }
+    public void setOverlayInterval(int interval)              { notifications.setOverlayInterval(max(60, interval)); }
+    public void setSoundInterval(int interval)                { notifications.setSoundInterval(max(60, interval)); }
+    public void setPreviousSoundInterval(int interval)        { notifications.setPreviousSoundInterval(max(60, interval)); }
+    public void setPreviousPopupInterval(int interval)        { notifications.setPreviousPopupInterval(max(60, interval)); }
+    public void setPreviousOverlayInterval(int interval)        { notifications.setPreviousOverlayInterval(max(60, interval)); }
 
 
 
@@ -143,9 +143,9 @@ public class SessionDraft {
         notifications.setPopupEnabled(popupEnabled);
         notifications.setOverlayEnabled(overlayEnabled);
         notifications.setSoundEnabled(soundEnabled);
-        notifications.setPopupInterval(max(0, popupInterval));
-        notifications.setOverlayInterval(max(0, overlayInterval));
-        notifications.setSoundInterval(max(0, soundInterval));
+        notifications.setPopupInterval(max(60, popupInterval));
+        notifications.setOverlayInterval(max(60, overlayInterval));
+        notifications.setSoundInterval(max(60, soundInterval));
     }
 
     // ── Task passthroughs ──────────────────────────────────────────────────────
@@ -171,8 +171,8 @@ public class SessionDraft {
                                int idleThreshold,
                                boolean useIdleThreshold) {
         this.sessionName      = sessionName;
-        this.expectedDuration = max(0, expectedDuration);
-        this.idleThreshold    = max(0, idleThreshold);
+        this.expectedDuration = max(60, expectedDuration);
+        this.idleThreshold    = max(60, idleThreshold);
         this.useIdleThreshold = useIdleThreshold;
     }
 

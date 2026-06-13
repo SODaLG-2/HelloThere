@@ -53,7 +53,7 @@ public class TaskItem extends JPanel {
         editField.addActionListener(e -> confirmEdit());
 
         // 3. Configure Buttons
-        editBtn = buildSmallButton("Edit");
+        editBtn = buildSmallButton("Edit", Theme.TEXT_SECONDARY);
         editBtn.addActionListener(e -> {
             if (editing) {
                 confirmEdit();
@@ -62,10 +62,11 @@ public class TaskItem extends JPanel {
             }
         });
 
-        deleteBtn = buildSmallButton("✕");
+        deleteBtn = buildSmallButton("✕", new Color(200, 60, 60));
         deleteBtn.setForeground(new Color(200, 60, 60));
+
         deleteBtn.setContentAreaFilled(false);
-        deleteBtn.setOpaque(true);
+
         deleteBtn.addActionListener(e -> onDelete.accept(this));
 
         // 4. Component Assembly
@@ -125,7 +126,7 @@ public class TaskItem extends JPanel {
     // Button Builder
     // ─────────────────────────────────────────
 
-    private JButton buildSmallButton(String label) {
+    private JButton buildSmallButton(String label, Color returnColor) {
         JButton btn = new JButton(label);
         btn.setFont(Theme.FONT_MONO);
         btn.setForeground(Theme.TEXT_SECONDARY);
@@ -142,7 +143,7 @@ public class TaskItem extends JPanel {
 
             @Override
             public void mouseExited(MouseEvent e) {
-                btn.setForeground(Theme.TEXT_SECONDARY);
+                btn.setForeground(returnColor);
             }
         });
 
